@@ -1,0 +1,5 @@
+def some_func():
+  print 'in test 1, unproductive'
+
+if __name__ == '__main__':
+  some_func()
