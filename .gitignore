@@ -1,5 +1,6 @@
 # ignore unimportant files
 *~
+*.pyc
 
 # ignore res dir
 resources/
