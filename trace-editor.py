@@ -43,7 +43,7 @@ if __name__ == '__main__':
   if (args.preprocess == True): #preprocess
     preprocess_trace.preprocess(args.file, args.filter)
   elif args.mostLoaded or args.busiest: #need combine
-    inlist = traces_combiner.combine(args.dir, args.filter)
+    inlist = traces_combiner.combine("in/" + args.dir, args.filter)
     if args.busiest:
       busy_load.checkCongestedTime(inlist, True, args.devno, args.duration, args.top)
     else:

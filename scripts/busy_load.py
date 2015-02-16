@@ -1,13 +1,13 @@
 #!/usr/bin/env python
-#title           :busiestdisk.py
-#description     :Get the busiest disk from a trace
+#title           :busy_load.py
+#description     :Get the busiest or the most loaded disk from a trace
 #author          :Vincentius Martin
 #date            :20150203
 #version         :0.1
-#usage           :python busiestdisk.py file
+#usage           :
 #notes           :
-#python_version  :2.6.6  
-#precondition    :processed by tracescombiner.py
+#python_version  :2.7.5+  
+#precondition    :ordered
 #==============================================================================
 
 import operator
@@ -30,7 +30,7 @@ def checkCongestedTime(inlist, isBusiest, devno, hrs, top = 1):
 
   i = 0
   for elm in sorted(result.items(), key=operator.itemgetter(1), reverse=True):
-    print "time(hrs): " + str(elm[0]) + "-" + str(elm[0] + hrs) + ": " + str(elm[1])
+    print "time(hrs): " + str(elm[0]) + "-" + str(elm[0] + hrs) + ": " + str(elm[1]).rstrip('0').rstrip('.')
     i += 1
     #if i >= top:
       #break
