@@ -5,13 +5,15 @@ import re
 import os
 
 def preprocess(tracefile, filtertype):
+  out = open("out/" + tracefile + "-preprocess.txt", 'w')
+
   type_filter = -1
   if filtertype == "write":
     type_filter = 0	
   elif filtertype == "read":
     type_filter = 1
 
-  with open(tracefile) as f:
+  with open("in/" + tracefile) as f:
   # skip header
     for line in f:
       if line[:9] == "EndHeader":
@@ -44,6 +46,8 @@ def preprocess(tracefile, filtertype):
         "flags": flags,
       };
 
-      print "%s %d %d %d %d" % ("{0:.3f}".format(t['time']), t['devno'], t['blkno'], t['bcount'], t['flags'])
+      out.write("%s %d %d %d %d\n" % ("{0:.3f}".format(t['time']), t['devno'], t['blkno'], t['bcount'], t['flags']))
+      
+  out.close()
 
 

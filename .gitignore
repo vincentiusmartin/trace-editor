@@ -3,3 +3,7 @@
 
 # ignore res dir
 resources/
+
+# ignore input output dir
+out*
+in*
