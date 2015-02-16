@@ -21,7 +21,9 @@ def modifyRate(reqlist, rate):
     request[0] = '%.3f' % (rate * float(request[0]))
   return reqlist
   
-def printRequestList(requestlist):
+def printRequestList(requestlist, filename):
+  out = open("out/" + filename + "-modified.trace" , 'w')
   for elm in requestlist:
-    print str(elm[0]) + " " + str(elm[1]) + " " + str(elm[2]) + " " + str(elm[3]) + " " + str(elm[4])
+    out.write(str(elm[0]) + " " + str(elm[1]) + " " + str(elm[2]) + " " + str(elm[3]) + " " + str(elm[4])+"\n")
+  out.close()
 

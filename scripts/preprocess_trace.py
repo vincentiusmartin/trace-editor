@@ -5,7 +5,7 @@ import re
 import os
 
 def preprocess(tracefile, filtertype):
-  out = open("out/" + tracefile + "-preprocess.txt", 'w')
+  out = open("out/" + tracefile + "-preprocess.trace", 'w')
 
   type_filter = -1
   if filtertype == "write":

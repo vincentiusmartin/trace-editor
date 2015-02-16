@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 #title           :trace-editor.py
-#description     :process a trace-file
+#description     :process traces
 #author          :Vincentius Martin
 #date            :-
 #version         :0.1
-#usage           :python trace-editor.py
+#usage           :see readme
 #notes           :
 #python_version  :2.7.5+
 #==============================================================================
@@ -49,7 +49,7 @@ if __name__ == '__main__':
     else:
       busy_load.checkCongestedTime(inlist, False, args.devno, args.duration, args.top)
   else:
-    with open(args.file) as f:
+    with open("in/" + args.file) as f:
       for line in f:
         requestlist.append(line.rstrip().split(" "))
     
@@ -58,6 +58,6 @@ if __name__ == '__main__':
         requestlist = trace_modifier.resize(requestlist,args.resize)     
       if (args.rerate != 1.0):
         requestlist = trace_modifier.modifyRate(requestlist,args.rerate)  
-      trace_modifier.printRequestList(requestlist)
+      trace_modifier.printRequestList(requestlist, args.file)
 
   
