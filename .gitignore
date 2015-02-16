@@ -1,0 +1,5 @@
+# ignore unimportant files
+*~
+
+# ignore res dir
+resources/
