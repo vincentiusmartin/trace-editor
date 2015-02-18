@@ -28,7 +28,7 @@ Resize all requests size by 2x and rerate all request arrival time by 0.5x : <br
 In this example get the disk 0 from 4 disks with the stripe unit size 65536 bytes
 </p>
 
-<pre>python -filterraid -file <infile> -ndisk 4 -odisk 0 -stripe 65536</pre>
+<pre>python -filterraid -file &lt;infile&gt; -ndisk 4 -odisk 0 -stripe 65536</pre>
 
 <p>
 4. Check the busiest or the most loaded (in kB) time for a specific disk in a directory (before preprocessed) <br />
