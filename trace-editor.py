@@ -19,6 +19,7 @@ import trace_modifier
 import preprocess_trace
 import traces_combiner
 import busy_load
+import filter_raid
 # end of import part
 
 # define global variables
@@ -29,6 +30,7 @@ if __name__ == '__main__':
   parser.add_argument("-file", help="trace file to process")
   parser.add_argument("-dir", help="directory file to process")
   parser.add_argument("-preprocess", help="preprocess the trace into disksim ascii format", action='store_true')
+  parser.add_argument("-filterraid", help="create RAID-0 subtrace", action='store_true')
   parser.add_argument("-filter", help="filter specific type", choices=['all','write','read'], default='all')
   parser.add_argument("-devno", help="disk/device number", type=int, default=0)
   parser.add_argument("-duration", help="how many hours", type=float, default=1.0)
@@ -37,18 +39,23 @@ if __name__ == '__main__':
   parser.add_argument("-top", help="top n", type=int, default=1)
   parser.add_argument("-resize", help="resize a trace", type=float, default=1.0)
   parser.add_argument("-rerate", help="rerate a trace", type=float, default=1.0)
+  parser.add_argument("-ndisk", help="n disk for RAID", type=int, default=2)
+  parser.add_argument("-odisk", help="observed disk for RAID", type=int, default=0)
+  parser.add_argument("-stripe", help="RAID stripe unit size in byte", type=int, default=4096)
   args = parser.parse_args()
 
   # parse to request list
-  if (args.preprocess == True): #preprocess
+  if (args.preprocess): #preprocess
     preprocess_trace.preprocess(args.file, args.filter)
+  elif (args.filterraid):
+    filter_raid.createRaidSubtrace(args.file, args.ndisk, args.odisk, args.stripe)
   elif args.mostLoaded or args.busiest: #need combine
     inlist = traces_combiner.combine("in/" + args.dir, args.filter)
     if args.busiest:
       busy_load.checkCongestedTime(inlist, True, args.devno, args.duration, args.top)
     else:
       busy_load.checkCongestedTime(inlist, False, args.devno, args.duration, args.top)
-  else:
+  else: #modify a trace
     with open("in/" + args.file) as f:
       for line in f:
         requestlist.append(line.rstrip().split(" "))
