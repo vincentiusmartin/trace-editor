@@ -31,7 +31,7 @@ In this example get the disk 0 from 4 disks with the stripe unit size 65536 byte
 <pre>python trace-editor.py -filterraid -file &lt;infile&gt; -ndisk 4 -odisk 0 -stripe 65536</pre>
 
 <p>
-4. Check IO imbalance in the RAID Disks
+4. Check IO imbalance in the RAID Disks.
 This example uses 3disks with the granularity of 300seconds.
 </p>
 
