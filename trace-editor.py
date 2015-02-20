@@ -20,6 +20,7 @@ import preprocess_trace
 import traces_combiner
 import busy_load
 import filter_raid
+import iopsimbalance
 # end of import part
 
 # define global variables
@@ -28,9 +29,11 @@ requestlist = []
 if __name__ == '__main__':
   parser = argparse.ArgumentParser()
   parser.add_argument("-file", help="trace file to process")
+  parser.add_argument("-files", nargs='+', help="trace files to process")
   parser.add_argument("-dir", help="directory file to process")
   parser.add_argument("-preprocess", help="preprocess the trace into disksim ascii format", action='store_true')
   parser.add_argument("-filterraid", help="create RAID-0 subtrace", action='store_true')
+  parser.add_argument("-ioimbalance", help="check RAID IO Imbalance", action='store_true')
   parser.add_argument("-filter", help="filter specific type", choices=['all','write','read'], default='all')
   parser.add_argument("-devno", help="disk/device number", type=int, default=0)
   parser.add_argument("-duration", help="how many hours", type=float, default=1.0)
@@ -42,6 +45,7 @@ if __name__ == '__main__':
   parser.add_argument("-ndisk", help="n disk for RAID", type=int, default=2)
   parser.add_argument("-odisk", help="observed disk for RAID", type=int, default=0)
   parser.add_argument("-stripe", help="RAID stripe unit size in byte", type=int, default=4096)
+  parser.add_argument("-granularity", help="granularity to check RAID IO imbalance in seconds", type=int, default=300)
   args = parser.parse_args()
 
   # parse to request list
@@ -49,6 +53,8 @@ if __name__ == '__main__':
     preprocess_trace.preprocess(args.file, args.filter)
   elif (args.filterraid):
     filter_raid.createRaidSubtrace(args.file, args.ndisk, args.odisk, args.stripe)
+  elif (args.ioimbalance):
+    iopsimbalance.checkIOImbalance(args.files, args.granularity)
   elif args.mostLoaded or args.busiest: #need combine
     inlist = traces_combiner.combine("in/" + args.dir, args.filter)
     if args.busiest:
