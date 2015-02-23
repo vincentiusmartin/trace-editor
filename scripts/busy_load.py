@@ -30,10 +30,10 @@ def checkCongestedTime(inlist, isBusiest, devno, hrs, top = 1):
 
   i = 0
   for elm in sorted(result.items(), key=operator.itemgetter(1), reverse=True):
-    print "time(hrs): " + str(elm[0]) + "-" + str(elm[0] + hrs) + ": " + str(elm[1]).rstrip('0').rstrip('.')
+    print "time(hrs): " + str(elm[0] * hrs) + "-" + str(elm[0] *hrs + hrs) + ": " + str(elm[1]).rstrip('0').rstrip('.')
     i += 1
-    #if i >= top:
-      #break
+    if i >= top:
+      break
 
 #lowerb = max(result.iteritems(), key=operator.itemgetter(1))[0] * 3600000000
 #upperb = (max(result.iteritems(), key=operator.itemgetter(1))[0] + args.hours) * 3600000000
