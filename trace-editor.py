@@ -31,7 +31,9 @@ if __name__ == '__main__':
   parser.add_argument("-file", help="trace file to process")
   parser.add_argument("-files", nargs='+', help="trace files to process")
   parser.add_argument("-dir", help="directory file to process")
-  parser.add_argument("-preprocess", help="preprocess the trace into disksim ascii format", action='store_true')
+  parser.add_argument("-produceTrace", help="produce preprocessed trace", action='store_true')
+  parser.add_argument("-preprocessMSTrace", help="preprocess the MS trace into disksim ascii format", action='store_true')
+  parser.add_argument("-preprocessBlkTrace", help="preprocess the Blk trace into disksim ascii format", action='store_true')
   parser.add_argument("-filterraid", help="create RAID-0 subtrace", action='store_true')
   parser.add_argument("-ioimbalance", help="check RAID IO Imbalance", action='store_true')
   parser.add_argument("-filter", help="filter specific type", choices=['all','write','read'], default='all')
@@ -49,8 +51,10 @@ if __name__ == '__main__':
   args = parser.parse_args()
 
   # parse to request list
-  if (args.preprocess): #preprocess
-    preprocess_trace.preprocess(args.file, args.filter)
+  if (args.preprocessMSTrace): #preprocess
+    preprocess_trace.preprocessMSTrace(args.file, args.filter)
+  elif (args.preprocessBlkTrace): #preprocess
+    preprocess_trace.preprocessBlkTrace(args.file, args.filter)
   elif (args.filterraid):
     filter_raid.createRaidSubtrace(args.file, args.ndisk, args.odisk, args.stripe)
   elif (args.ioimbalance):
