@@ -5,7 +5,12 @@ import re
 import os
 
 def preprocessMSTrace(tracefile, filtertype):
-  out = open("out/" + tracefile + "-preprocess.trace", 'w')
+
+  if(len(tracefile.split('/')) > 1):
+    out = open("out/" + tracefile.split('/')[1] + "-preprocess.trace", 'w')
+  else:
+    out = open("out/" + tracefile + "-preprocess.trace", 'w')
+  # else: do nothing
 
   type_filter = -1
   if filtertype == "write":
@@ -51,7 +56,10 @@ def preprocessMSTrace(tracefile, filtertype):
   out.close()
   
 def preprocessBlkTrace(tracefile, filtertype):
-  out = open("out/" + tracefile + "-preprocess.trace", 'w')
+  if(len(tracefile.split('/')) > 1):
+    out = open("out/" + tracefile.split('/')[1] + "-preprocess.trace", 'w')
+  else:
+    out = open("out/" + tracefile + "-preprocess.trace", 'w')
 
   type_filter = -1
   if filtertype == "write":

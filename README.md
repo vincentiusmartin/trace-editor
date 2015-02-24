@@ -13,32 +13,38 @@ The scripts will take every input and produce every output to those directories.
 
 <h2>List of commands: </h2>
 <p>
-1. Preprocess a trace <br />
+1. Preprocess a trace or traces inside a directory<br />
 </p>
 <pre>python trace-editor.py -file &lt;tracename&gt; -preprocess (-filter read/write)</pre>
+<pre>python trace-editor.py -dir &lt;dirname&gt; -preprocess (-filter read/write)</pre>
 
 <p>
-2. Modify a trace (Precondition: The trace must have been preprocessed)<br />
+2. Modify a trace (Precondition: The trace must has been preprocessed)<br />
 Resize all requests size by 2x and rerate all request arrival time by 0.5x : <br />
 </p>
 <pre>python trace-editor.py -file &lt;tracename&gt; -resize 2 -rerate 0.5</pre>
 
 <p>
-3. Filter to RAID-0 disk
+3. Combine traces (Precondition: The traces must have been preprocessed)<br />
+</p>
+<pre>python trace-editor.py -file &lt;tracename&gt; -resize 2 -rerate 0.5</pre>
+
+<p>
+4. Filter to RAID-0 disk
 In this example get the disk 0 from 4 disks with the stripe unit size 65536 bytes
 </p>
 
 <pre>python trace-editor.py -filterraid -file &lt;infile&gt; -ndisk 4 -odisk 0 -stripe 65536</pre>
 
 <p>
-4. Check IO imbalance in the RAID Disks.
+5. Check IO imbalance in the RAID Disks.
 This example uses 3disks with the granularity of 300seconds.
 </p>
 
 <pre>python trace-editor.py -ioimbalance -files &lt;disk0&gt;.trace &lt;disk1&gt;.trace &lt;disk2&gt;.trace -granularity 300</pre>
 
 <p>
-5. Check the busiest or the most loaded (in kB) time for a specific disk in a directory (before preprocessed) <br />
+6. Check the busiest or the most loaded (in kB) time for a specific disk in a directory (before preprocessed) <br />
 <b>Still in improvement</b>, right now, this command will first combine all traces inside a directory. <br />
 Make sure that all traces are well ordered based on their time (check with ls to make sure). <br />
 If the traces are not ordered, please rename the traces first, the script will just take all traces <br />
@@ -51,5 +57,19 @@ top - top n result in this example 3 top results <br />
 <pre>python trace-editor.py -dir &lt;dirname&gt; -mostLoaded -duration 1 -top 3</pre>
 <pre>python trace-editor.py -dir &lt;dirname&gt; -busiest -duration 1 -top 3</pre>
 <pre></pre>
+
+<p>
+7. Top Large IO, In this example: <br />
+Top 3 Large IO with size greater than or equal 64kB, with 1hr duration (can accept float)
+</p>
+
+<pre>python trace-editor.py -toplargeio -file <filename> -offset 64 -devno 0 -duration 1 -top 3</pre>
+
+<p>
+8. Cut trace, in this example between timerange of hour 0.2 to hour 0.3
+</p>
+
+<pre>python trace-editor.py -cuttrace -file <filename> -timerange 0.2 0.3</pre>
+
 
 

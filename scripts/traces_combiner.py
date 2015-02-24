@@ -12,17 +12,13 @@
 import argparse
 from os import listdir
 
-def combine(tracesdir, filtertype):
- 
-  type_filter = -1
-  if filtertype == "write":
-    type_filter = 0	
-  elif filtertype == "read":
-    type_filter = 1
+def combine(tracesdir):
+
+  out = open("out/" + tracesdir + "-combine.trace",'w')
 
   # get all files
   listoffiles = []
-  for ftrace in listdir(tracesdir):
+  for ftrace in listdir("in/" + tracesdir):
     listoffiles.append(str(ftrace))
 
   listoffiles.sort()
@@ -30,42 +26,28 @@ def combine(tracesdir, filtertype):
   # combine
 
   timeoffset = 0
-  outlist = []
 
   for tracefile in listoffiles:
-    with open(tracesdir + "/" + tracefile) as f:
-      for line in f:
-        if line[:9] == "EndHeader":
-          break
+    print tracefile
+    with open("in/" + tracesdir + "/" + tracefile) as f:
       timetmp = 0
       for line in (f):
-        tok = map(str.lstrip, line.split(","))
-        flags = -1
-
-        if tok[0] == "DiskWrite":
-          flags = 0
-        elif tok[0] == "DiskRead":
-          flags = 1
-
-        if flags == -1:
-          continue
-        if type_filter != -1 and type_filter != flags:
-          continue
+        tok = map(str.lstrip, line.split(" "))
       
         t = {
-          "time": int(tok[1]) + timeoffset,
-          "devno": int(tok[8]),
-          "blkno": int(tok[5], 16),
-          "bcount": int(tok[6], 16),
-          "flags": flags,
+          "time": float(tok[0]) + timeoffset,
+          "devno": int(tok[1]),
+          "blkno": int(tok[2]),
+          "bcount": int(tok[3]),
+          "flags": int(tok[4]),
         };
       
-        timetmp = int(tok[1])
-        outlist.append("%s %d %d %d %d\n" % (t['time'], t['devno'], t['blkno'], t['bcount'], t['flags']))
+        timetmp = float(tok[0])
+        out.write("%s %d %d %d %d\n" % ("{0:.3f}".format(t['time']), t['devno'], t['blkno'], t['bcount'], t['flags']))
 
-    timeoffset += timetmp
+    timeoffset += timetmp + 0.001
     
-  return outlist
+  out.close()
 
 
       
