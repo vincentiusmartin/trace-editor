@@ -25,9 +25,10 @@ Resize all requests size by 2x and rerate all request arrival time by 0.5x : <br
 <pre>python trace-editor.py -file &lt;tracename&gt; -resize 2 -rerate 0.5</pre>
 
 <p>
-3. Combine traces (Precondition: The traces must have been preprocessed)<br />
+3. Combine traces (Precondition: The traces must have been preprocessed).<br />
+Make sure that traces' names are well ordered.
 </p>
-<pre>python trace-editor.py -file &lt;tracename&gt; -resize 2 -rerate 0.5</pre>
+<pre>python trace-editor.py -dir &lt;dirname&gt; </pre>
 
 <p>
 4. Filter to RAID-0 disk
@@ -45,10 +46,6 @@ This example uses 3disks with the granularity of 300seconds.
 
 <p>
 6. Check the busiest or the most loaded (in kB) time for a specific disk in a directory (before preprocessed) <br />
-<b>Still in improvement</b>, right now, this command will first combine all traces inside a directory. <br />
-Make sure that all traces are well ordered based on their time (check with ls to make sure). <br />
-If the traces are not ordered, please rename the traces first, the script will just take all traces <br />
-by assuming that all of them are already sorted. <br />
 <br />
 Notes: <br />
 duration - in hrs, in this example 1hrs <br />
