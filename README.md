@@ -15,8 +15,9 @@ The scripts will take every input and produce every output to those directories.
 <p>
 1. Preprocess a trace or traces inside a directory<br />
 </p>
-<pre>python trace-editor.py -file &lt;tracename&gt; -preprocess (-filter read/write)</pre>
-<pre>python trace-editor.py -dir &lt;dirname&gt; -preprocess (-filter read/write)</pre>
+<pre>python trace-editor.py -file &lt;tracename&gt; -preprocessMSTrace (-filter read/write)</pre>
+<pre>python trace-editor.py -file &lt;tracename&gt; -preprocessBlkTrace (-filter read/write)</pre>
+<pre>python trace-editor.py -dir &lt;dirname&gt; -preprocesspreprocessMSTrace (-filter read/write)</pre>
 
 <p>
 2. Modify a trace (Precondition: The trace must has been preprocessed)<br />

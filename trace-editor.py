@@ -68,7 +68,10 @@ if __name__ == '__main__':
     else:
       preprocess_trace.preprocessMSTrace(args.file, args.filter)
   elif (args.preprocessBlkTrace): #preprocess
-    preprocess_trace.preprocessBlkTrace(args.file, args.filter)
+    for ftrace in listdir("in/" + args.dir):
+      preprocess_trace.preprocessBlkTrace(args.dir + "/" + ftrace, args.filter)
+    else:
+      preprocess_trace.preprocessBlkTrace(args.file, args.filter)
   elif (args.filterraid):
     filter_raid.createRaidSubtrace(args.file, args.ndisk, args.odisk, args.stripe)
   elif (args.ioimbalance):
