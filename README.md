@@ -48,6 +48,8 @@ This example uses 3disks with the granularity of 300seconds.
 
 <p>
 6. Check the busiest or the most loaded (in kB) time for a specific disk in a directory (before preprocessed) <br />
+Busiest = a time range with the largest number of requests <br />
+Most Loaded = a time range with the largest total requests size <br />
 <br />
 Notes: <br />
 duration - in hrs, in this example 1hrs (60mins) <br />
