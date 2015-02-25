@@ -31,13 +31,14 @@ requestlist = []
 
 if __name__ == '__main__':
   parser = argparse.ArgumentParser()
-  parser.add_argument("-file", help="trace file to process")
-  parser.add_argument("-files", nargs='+', help="trace files to process")
-  parser.add_argument("-dir", help="directory file to process")
+  parser.add_argument("-file", help="trace file to process",type=str)
+  parser.add_argument("-files", nargs='+', help="trace files to process",type=str)
+  parser.add_argument("-dir", help="directory file to process",type=str)
   
   parser.add_argument("-produceTrace", help="produce preprocessed trace", action='store_true')
   parser.add_argument("-preprocessMSTrace", help="preprocess the MS trace into disksim ascii format", action='store_true')
-  parser.add_argument("-preprocessBlkTrace", help="preprocess the Blk trace into disksim ascii format", action='store_true')
+  parser.add_argument("-preprocessBlkReplayTrace", help="preprocess the blkreplay trace into disksim ascii format", action='store_true')
+  parser.add_argument("-preprocessUnixBlkTrace", help="preprocess the blkreplay trace into disksim ascii format", action='store_true')
   parser.add_argument("-filterraid", help="create RAID-0 subtrace", action='store_true')
   parser.add_argument("-ioimbalance", help="check RAID IO Imbalance", action='store_true')
   parser.add_argument("-combine", help="combine preprocessed traces inside a directory", action='store_true')
@@ -67,11 +68,18 @@ if __name__ == '__main__':
         preprocess_trace.preprocessMSTrace(args.dir + "/" + ftrace, args.filter)
     else:
       preprocess_trace.preprocessMSTrace(args.file, args.filter)
-  elif (args.preprocessBlkTrace): #preprocess
-    for ftrace in listdir("in/" + args.dir):
-      preprocess_trace.preprocessBlkTrace(args.dir + "/" + ftrace, args.filter)
+  elif (args.preprocessBlkReplayTrace): #preprocess
+    if (not args.file and args.dir): 
+      for ftrace in listdir("in/" + args.dir):
+        preprocess_trace.preprocessBlkReplayTrace(args.dir + "/" + ftrace, args.filter)
     else:
-      preprocess_trace.preprocessBlkTrace(args.file, args.filter)
+      preprocess_trace.preprocessBlkReplayTrace(args.file, args.filter)
+  elif (args.preprocessUnixBlkTrace): #preprocess
+    if (not args.file and args.dir):
+      for ftrace in listdir("in/" + args.dir):
+        preprocess_trace.preprocessUnixBlkTrace(args.dir + "/" + ftrace, args.filter)
+    else:
+      preprocess_trace.preprocessUnixBlkTrace(args.file, args.filter)
   elif (args.filterraid):
     filter_raid.createRaidSubtrace(args.file, args.ndisk, args.odisk, args.stripe)
   elif (args.ioimbalance):
