@@ -13,8 +13,8 @@
 def cut(tracefile, lowerb, upperb):
   out = open("out/" + tracefile + "-cut.trace", 'w')
   
-  lowerb = 3600000 * lowerb
-  upperb = 3600000 * upperb
+  lowerb = 60000 * lowerb
+  upperb = 60000 * upperb
 
   with open("in/" + tracefile) as f:
     for line in f:

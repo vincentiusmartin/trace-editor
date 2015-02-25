@@ -125,7 +125,7 @@ def preprocessUnixBlkTrace(tracefile, filtertype):
       tok = map(str.strip, line.split())
       flags = -1
 
-      if len(tok) > 6 and tok[5] == "Q":
+      if len(tok) > 6 and tok[5] == "C":
         if "W" in tok[6]:
           flags = 0
         elif "R" in tok[6]:

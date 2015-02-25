@@ -50,18 +50,18 @@ This example uses 3disks with the granularity of 300seconds.
 6. Check the busiest or the most loaded (in kB) time for a specific disk in a directory (before preprocessed) <br />
 <br />
 Notes: <br />
-duration - in hrs, in this example 1hrs <br />
+duration - in hrs, in this example 1hrs (60mins) <br />
 top - top n result in this example 3 top results <br />
 </p>
-<pre>python trace-editor.py -dir &lt;dirname&gt; -mostLoaded -duration 1 -top 3</pre>
-<pre>python trace-editor.py -dir &lt;dirname&gt; -busiest -duration 1 -top 3</pre>
+<pre>python trace-editor.py -dir &lt;dirname&gt; -mostLoaded -duration 60 -top 3</pre>
+<pre>python trace-editor.py -dir &lt;dirname&gt; -busiest -duration 60 -top 3</pre>
 
 <p>
 7. Top Large IO, In this example: <br />
-Top 3 Large IO with size greater than or equal 64kB, with 1hr duration (can accept float)
+Top 3 Large IO with size greater than or equal 64kB, with 1hr duration
 </p>
 
-<pre>python trace-editor.py -toplargeio -file &lt;filename&gt; -offset 64 -devno 0 -duration 1 -top 3</pre>
+<pre>python trace-editor.py -toplargeio -file &lt;filename&gt; -offset 64 -devno 0 -duration 60 -top 3</pre>
 
 <p>
 8. Cut trace, in this example between timerange of hour 0.2 to hour 0.3

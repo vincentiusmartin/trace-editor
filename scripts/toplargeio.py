@@ -12,8 +12,8 @@
 
 import math
 
-def getTopLargeIO(tracefile, offset, devno, hrs, top = 1):
-  timerange = int(hrs * 3600000000) #micro sec 
+def getTopLargeIO(tracefile, offset, devno, minutes, top = 1):
+  timerange = int(minutes * 60000000) #micro sec 
 
   result = {}
   
@@ -51,7 +51,7 @@ def getTopLargeIO(tracefile, offset, devno, hrs, top = 1):
     
   i = 0
   for key, value in sorted(result.items(), key=lambda e: e[1][sortidx], reverse = True):
-    print str(key * hrs) + "-" + str(key * hrs + hrs) + ": " + str(value)
+    print str(key * minutes) + "-" + str(key * minutes + minutes) + ": " + str(value)
     i += 1
     if i == top:
       break

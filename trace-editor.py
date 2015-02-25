@@ -48,7 +48,7 @@ if __name__ == '__main__':
   parser.add_argument("-offset", help="offset", choices=['0','32','64','128','256','512','1024'], default = '0')
   parser.add_argument("-filter", help="filter specific type", choices=['all','write','read'], default='all')
   parser.add_argument("-devno", help="disk/device number", type=int, default=0)
-  parser.add_argument("-duration", help="how many hours", type=float, default=1.0)
+  parser.add_argument("-duration", help="how many minutes", type=float, default=1.0)
   parser.add_argument("-mostLoaded", help="most loaded", action='store_true')
   parser.add_argument("-busiest", help="busiest", action='store_true')
   parser.add_argument("-top", help="top n", type=int, default=1)

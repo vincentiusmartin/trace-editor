@@ -12,8 +12,8 @@
 
 import operator
 
-def checkCongestedTime(tracefile, isBusiest, devno, hrs, top = 1):
-  timerange = int(hrs * 3600000000) #ns
+def checkCongestedTime(tracefile, isBusiest, devno, minutes, top = 1):
+  timerange = int(minutes * 60000000) #ns
 
   result = {}
   
@@ -34,7 +34,7 @@ def checkCongestedTime(tracefile, isBusiest, devno, hrs, top = 1):
 
   i = 0
   for elm in sorted(result.items(), key=operator.itemgetter(1), reverse=True):
-    print "time(hrs): " + str(elm[0] * hrs) + "-" + str(elm[0] * hrs + hrs) + ": " + str(elm[1]).rstrip('0').rstrip('.')
+    print "time(minutes): " + str(elm[0] * minutes) + "-" + str(elm[0] * minutes + minutes) + ": " + str(elm[1]).rstrip('0').rstrip('.')
     i += 1
     if i >= top:
       break
