@@ -54,14 +54,13 @@ top - top n result in this example 3 top results <br />
 </p>
 <pre>python trace-editor.py -dir &lt;dirname&gt; -mostLoaded -duration 1 -top 3</pre>
 <pre>python trace-editor.py -dir &lt;dirname&gt; -busiest -duration 1 -top 3</pre>
-<pre></pre>
 
 <p>
 7. Top Large IO, In this example: <br />
 Top 3 Large IO with size greater than or equal 64kB, with 1hr duration (can accept float)
 </p>
 
-<pre>python trace-editor.py -toplargeio -file <filename> -offset 64 -devno 0 -duration 1 -top 3</pre>
+<pre>python trace-editor.py -toplargeio -file &lt;filename&gt; -offset 64 -devno 0 -duration 1 -top 3</pre>
 
 <p>
 8. Cut trace, in this example between timerange of hour 0.2 to hour 0.3

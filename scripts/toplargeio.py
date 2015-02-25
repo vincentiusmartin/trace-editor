@@ -43,8 +43,8 @@ def getTopLargeIO(tracefile, offset, devno, hrs, top = 1):
           result[timeoffset][5] += 1
         else: # must be larger than 1024
           result[timeoffset][6] += 1
-  
-  if offset != 0:
+          
+  if offset != "0":
     sortidx = int(math.log(float(offset),2) - 4)
   else:      
     sortidx = 0
