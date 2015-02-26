@@ -9,11 +9,19 @@ Before running, create 2 symlinks/folders inside this directory: <br />
 ./out: contains all output files <br />
 <br />
 The scripts will take every input and produce every output to those directories. <br />
+<br />
+Please keep in mind that every trace must be preprocessed first before getting into script's another functionalities.
 </p>
 
 <h2>List of commands: </h2>
 <p>
-1. Preprocess a trace or traces inside a directory<br />
+1. Preprocess a trace or traces inside a directory.<br />
+Type of traces:<br/>
+<li>
+  <ol>Microsoft Server Trace</ol>
+  <ol>BlkReplay's blktrace</ol>
+  <ol>Unix's blktrace: in our case, so far it is the same with Hadoop trace</ol>
+</li>
 </p>
 <pre>python trace-editor.py -file &lt;tracename&gt; -preprocessMSTrace (-filter read/write)</pre>
 <pre>python trace-editor.py -file &lt;tracename&gt; -preprocessBlkReplayTrace (-filter read/write)</pre>
@@ -47,7 +55,7 @@ This example uses 3disks with the granularity of 300seconds.
 <pre>python trace-editor.py -ioimbalance -files &lt;disk0&gt;.trace &lt;disk1&gt;.trace &lt;disk2&gt;.trace -granularity 300</pre>
 
 <p>
-6. Check the busiest or the most loaded (in kB) time for a specific disk in a directory (before preprocessed) <br />
+6. Check the busiest or the most loaded (in kB) time for a specific disk in a directory <br />
 Busiest = a time range with the largest number of requests <br />
 Most Loaded = a time range with the largest total requests size <br />
 <br />
@@ -56,6 +64,9 @@ duration - in hrs, in this example 1hrs (60mins) <br />
 top - top n result in this example 3 top results <br />
 </p>
 <pre>python trace-editor.py -dir &lt;dirname&gt; -mostLoaded -duration 60 -top 3</pre>
+<pre>python trace-editor.py -dir &lt;dirname&gt; -busiest -duration 60 -top 3</pre>
+
+<p> Check the largest average time, the usage is the same with busiest and most loaded </p>
 <pre>python trace-editor.py -dir &lt;dirname&gt; -busiest -duration 60 -top 3</pre>
 
 <p>

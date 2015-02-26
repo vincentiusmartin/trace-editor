@@ -7,7 +7,7 @@ import os
 def preprocessMSTrace(tracefile, filtertype):
 
   if(len(tracefile.split('/')) > 1):
-    out = open("out/" + tracefile.split('/')[1] + "-preprocess.trace", 'w')
+    out = open("out/" + tracefile.split('/')[-1] + "-preprocess.trace", 'w')
   else:
     out = open("out/" + tracefile + "-preprocess.trace", 'w')
   # else: do nothing
@@ -58,7 +58,7 @@ def preprocessMSTrace(tracefile, filtertype):
 def preprocessBReplayTrace(tracefile, filtertype):
 
   if(len(tracefile.split('/')) > 1):
-    out = open("out/" + tracefile.split('/')[1] + "-preprocess.trace", 'w')
+    out = open("out/" + tracefile.split('/')[-1] + "-preprocess.trace", 'w')
   else:
     out = open("out/" + tracefile + "-preprocess.trace", 'w')
 
@@ -108,7 +108,7 @@ def preprocessBReplayTrace(tracefile, filtertype):
 def preprocessUnixBlkTrace(tracefile, filtertype):
 
   if(len(tracefile.split('/')) > 1):
-    out = open("out/" + tracefile.split('/')[1] + "-preprocess.trace", 'w')
+    out = open("out/" + tracefile.split('/')[-1] + "-preprocess.trace", 'w')
   else:
     out = open("out/" + tracefile + "-preprocess.trace", 'w')
 
@@ -121,11 +121,12 @@ def preprocessUnixBlkTrace(tracefile, filtertype):
   with open("in/" + tracefile) as f:
   # skip header
         
+    tmpline = []
     for line in f:
       tok = map(str.strip, line.split())
       flags = -1
 
-      if len(tok) > 6 and tok[5] == "C":
+      if len(tok) > 6 and tok[5] == "Q":
         if "W" in tok[6]:
           flags = 0
         elif "R" in tok[6]:
@@ -144,7 +145,15 @@ def preprocessUnixBlkTrace(tracefile, filtertype):
           "flags": flags,
         };
 
-        out.write("%s %d %d %d %d\n" % ("{0:.3f}".format(t['time']), t['devno'], t['blkno'], t['bcount'], t['flags']))
+        if not tmpline: #firstline
+          tmpline = ["{0:.3f}".format(t['time']), t['devno'], t['blkno'], t['bcount'], t['flags'], t['bcount']] #add a bcount column as memory
+        elif tmpline[2] == (t['blkno']- tmpline[3]) and tmpline[5] == t['bcount']:
+          tmpline[3] += t['bcount']
+        else:
+          out.write("%s %d %d %d %d\n" % (tmpline[0],tmpline[1],tmpline[2],tmpline[3],tmpline[4]))
+          tmpline = ["{0:.3f}".format(t['time']), t['devno'], t['blkno'], t['bcount'], t['flags'], t['bcount']] 
+          
+    out.write("%s %d %d %d %d\n" % (tmpline[0],tmpline[1],tmpline[2],tmpline[3],tmpline[4]))
       
   out.close()
 

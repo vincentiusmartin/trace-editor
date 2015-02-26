@@ -12,7 +12,11 @@
 
 import operator
 
-def checkCongestedTime(tracefile, isBusiest, devno, minutes, top = 1):
+def checkCongestedTime(tracefile, process_type, devno, minutes, top = 1):
+  #process type
+  #1 = busiest
+  #2 = most loaded
+  #3/else = largest average
   timerange = int(minutes * 60000000) #ns
 
   result = {}
@@ -24,17 +28,35 @@ def checkCongestedTime(tracefile, isBusiest, devno, minutes, top = 1):
   for elm in inlist:
     tok = map(str.lstrip, elm.split(" "))
     if int(tok[1]) == devno:
-      if (int(float(tok[0]) * 1000)/timerange) not in result:
-        result[int(float(tok[0]) * 1000)/timerange] = 0.0
-
-      if isBusiest:
-        result[int(float(tok[0]) * 1000)/timerange] += 1
+      if process_type == "3":
+        if (int(float(tok[0]) * 1000)/timerange) not in result:
+          result[int(float(tok[0]) * 1000)/timerange] = [0.0,0]
+          
+          result[int(float(tok[0]) * 1000)/timerange][0] += (float(tok[3]) / 1024) # size count
+          result[int(float(tok[0]) * 1000)/timerange][1] += 1 # IOs count
       else:
-        result[int(float(tok[0]) * 1000)/timerange] += (float(tok[3]) / 1024)
+        if (int(float(tok[0]) * 1000)/timerange) not in result:
+          result[int(float(tok[0]) * 1000)/timerange] = 0.0
+
+        if process_type == "1": #busiest
+          result[int(float(tok[0]) * 1000)/timerange] += 1
+        else: # process_type == "2": #most loaded
+          result[int(float(tok[0]) * 1000)/timerange] += (float(tok[3]) / 1024)
+  
+  # average count        
+  if process_type == "3":
+    for key in result:
+      result[key] = result[key][0] / result[key][1]
+  # else: do nothing        
 
   i = 0
+  unit = ""
+  if process_type == "1":
+    unit = "requests"
+  else:
+    unit = "KB"
   for elm in sorted(result.items(), key=operator.itemgetter(1), reverse=True):
-    print "time(minutes): " + str(elm[0] * minutes) + "-" + str(elm[0] * minutes + minutes) + ": " + str(elm[1]).rstrip('0').rstrip('.')
+    print "time(minutes): " + str(elm[0] * minutes) + "-" + str(elm[0] * minutes + minutes) + ": " + str(elm[1]).rstrip('0').rstrip('.') + " " + unit
     i += 1
     if i >= top:
       break
@@ -55,6 +77,7 @@ def checkCongestedTime(tracefile, isBusiest, devno, minutes, top = 1):
 #for elm in sorted(iolist):
 #  cfreq = (1.0/len(iolist)) + cfreq
 #  print(str(elm) + " " + str(cfreq))
+
 
 
 

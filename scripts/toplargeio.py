@@ -12,6 +12,20 @@
 
 import math
 
+def getLargestIO(tracefile):
+  largest = [[],0]
+
+  with open("in/" + tracefile) as f:
+    for line in f:
+      tok = map(str.lstrip, line.split(" "))
+      
+      if (int(tok[3])) > largest[1]:
+        largest = [(float(tok[0]) / 60000),int(tok[3])]
+      elif (int(tok[3])) == largest:
+        largest[0].append(float(tok[0]) / 60000)
+        
+  print "largest: " + str(largest[1]) + " in time " + str(largest[0])
+
 def getTopLargeIO(tracefile, offset, devno, minutes, top = 1):
   timerange = int(minutes * 60000000) #micro sec 
 

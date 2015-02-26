@@ -44,6 +44,7 @@ if __name__ == '__main__':
   parser.add_argument("-combine", help="combine preprocessed traces inside a directory", action='store_true')
   parser.add_argument("-toplargeio", help="get n top large io", action='store_true')
   parser.add_argument("-cuttrace", help="cut a trace", action='store_true')
+  parser.add_argument("-getLargestIO", help="get largest IO", action='store_true')
   
   parser.add_argument("-offset", help="offset", choices=['0','32','64','128','256','512','1024'], default = '0')
   parser.add_argument("-filter", help="filter specific type", choices=['all','write','read'], default='all')
@@ -51,6 +52,7 @@ if __name__ == '__main__':
   parser.add_argument("-duration", help="how many minutes", type=float, default=1.0)
   parser.add_argument("-mostLoaded", help="most loaded", action='store_true')
   parser.add_argument("-busiest", help="busiest", action='store_true')
+  parser.add_argument("-largestAverage", help="largest average", action='store_true')
   parser.add_argument("-top", help="top n", type=int, default=1)
   parser.add_argument("-resize", help="resize a trace", type=float, default=1.0)
   parser.add_argument("-rerate", help="rerate a trace", type=float, default=1.0)
@@ -79,17 +81,21 @@ if __name__ == '__main__':
         preprocess_trace.preprocessUnixBlkTrace(args.dir + "/" + ftrace, args.filter)
     else:
       preprocess_trace.preprocessUnixBlkTrace(args.file, args.filter)
+  elif (args.getLargestIO):
+    toplargeio.getLargestIO(args.file)
   elif (args.breaktoraid):
     filter_raid.createAllRaidFiles(args.file, args.ndisk, args.stripe)
   elif (args.ioimbalance):
     iopsimbalance.checkIOImbalance(filter_raid.createAllRaidList(args.file,args.ndisk,args.stripe), args.granularity)
   elif (args.combine):
     traces_combiner.combine(args.dir)
-  elif args.mostLoaded or args.busiest: #need combine
+  elif args.mostLoaded or args.busiest or args.largestAverage: #need combine
     if args.busiest:
-      busy_load.checkCongestedTime(args.file, True, args.devno, args.duration, args.top)
+      busy_load.checkCongestedTime(args.file, "1", args.devno, args.duration, args.top)
+    elif args.mostLoaded:
+      busy_load.checkCongestedTime(args.file, "2", args.devno, args.duration, args.top)
     else:
-      busy_load.checkCongestedTime(args.file, False, args.devno, args.duration, args.top)
+      busy_load.checkCongestedTime(args.file, "3", args.devno, args.duration, args.top)
   elif (args.toplargeio):
     toplargeio.getTopLargeIO(args.file, args.offset, args.devno, args.duration, args.top)
   elif (args.cuttrace):
