@@ -85,5 +85,3 @@ Top 3 Large IO with size greater than or equal 64kB, with 1hr duration
 
 <pre>python trace-editor.py -cuttrace -file <filename> -timerange 5 10</pre>
 
-
-
