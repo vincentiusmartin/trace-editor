@@ -26,6 +26,8 @@ Type of traces:<br/>
 <pre>python trace-editor.py -file &lt;tracename&gt; -preprocessMSTrace (-filter read/write)</pre>
 <pre>python trace-editor.py -file &lt;tracename&gt; -preprocessBlkReplayTrace (-filter read/write)</pre>
 <pre>python trace-editor.py -file &lt;tracename&gt; -preprocessUnixBlkTrace (-filter read/write)</pre>
+
+<p>It can also preprocess all traces inside a directory, here's an example using MS-Trace</p>
 <pre>python trace-editor.py -dir &lt;dirname&gt; -preprocesspreprocessMSTrace (-filter read/write)</pre>
 
 <p>
