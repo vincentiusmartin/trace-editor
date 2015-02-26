@@ -28,7 +28,7 @@ Type of traces:<br/>
 <pre>python trace-editor.py -file &lt;tracename&gt; -preprocessUnixBlkTrace (-filter read/write)</pre>
 
 <p>It can also preprocess all traces inside a directory, here's an example using MS-Trace</p>
-<pre>python trace-editor.py -dir &lt;dirname&gt; -preprocesspreprocessMSTrace (-filter read/write)</pre>
+<pre>python trace-editor.py -dir &lt;dirname&gt; -preprocessMSTrace (-filter read/write)</pre>
 
 <p>
 2. Modify a trace (Precondition: The trace must has been preprocessed)<br />
@@ -38,7 +38,8 @@ Resize all requests size by 2x and rerate all request arrival time by 0.5x : <br
 
 <p>
 3. Combine traces (Precondition: The traces must have been preprocessed).<br />
-Make sure that traces' names are well ordered.
+Make sure that the traces' names are well ordered because the script will just do the process without ordering the traces.
+Well ordered means the traces are ordered from the earliest time to the latest time. Just check this condition with <pre>-ls</pre>.
 </p>
 <pre>python trace-editor.py -dir &lt;dirname&gt; </pre>
 
@@ -51,10 +52,10 @@ In this example get RAID disks from 4 disks with the stripe unit size 65536 byte
 
 <p>
 5. Check IO imbalance in the RAID Disks.
-This example uses 3disks with the granularity of 300seconds.
+This example uses 3disks with the granularity of 5minutes.
 </p>
 
-<pre>python trace-editor.py -ioimbalance -files &lt;disk0&gt;.trace &lt;disk1&gt;.trace &lt;disk2&gt;.trace -granularity 300</pre>
+<pre>python trace-editor.py -ioimbalance -file &lt;filename&gt; -granularity 5</pre>
 
 <p>
 6. Check the busiest or the most loaded (in kB) time for a specific disk in a directory <br />
@@ -79,10 +80,10 @@ Top 3 Large IO with size greater than or equal 64kB, with 1hr duration
 <pre>python trace-editor.py -toplargeio -file &lt;filename&gt; -offset 64 -devno 0 -duration 60 -top 3</pre>
 
 <p>
-8. Cut trace, in this example between timerange of hour 0.2 to hour 0.3
+8. Cut trace, in this example between timerange of minute 5 and minute 10
 </p>
 
-<pre>python trace-editor.py -cuttrace -file <filename> -timerange 0.2 0.3</pre>
+<pre>python trace-editor.py -cuttrace -file <filename> -timerange 5 10</pre>
 
 
 
