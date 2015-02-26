@@ -39,7 +39,7 @@ Resize all requests size by 2x and rerate all request arrival time by 0.5x : <br
 <p>
 3. Combine traces (Precondition: The traces must have been preprocessed).<br />
 Make sure that the traces' names are well ordered because the script will just do the process without ordering the traces.
-Well ordered means the traces are ordered from the earliest time to the latest time. Just check this condition with <pre>-ls</pre>.
+Well ordered means the traces are ordered from the earliest time to the latest time. Just check this condition with -ls.
 </p>
 <pre>python trace-editor.py -dir &lt;dirname&gt; </pre>
 
