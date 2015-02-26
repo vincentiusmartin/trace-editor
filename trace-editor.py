@@ -32,14 +32,14 @@ requestlist = []
 if __name__ == '__main__':
   parser = argparse.ArgumentParser()
   parser.add_argument("-file", help="trace file to process",type=str)
-  parser.add_argument("-files", nargs='+', help="trace files to process",type=str)
+  #parser.add_argument("-files", nargs='+', help="trace files to process",type=str)
   parser.add_argument("-dir", help="directory file to process",type=str)
   
   parser.add_argument("-produceTrace", help="produce preprocessed trace", action='store_true')
   parser.add_argument("-preprocessMSTrace", help="preprocess the MS trace into disksim ascii format", action='store_true')
   parser.add_argument("-preprocessBlkReplayTrace", help="preprocess the blkreplay trace into disksim ascii format", action='store_true')
   parser.add_argument("-preprocessUnixBlkTrace", help="preprocess the blkreplay trace into disksim ascii format", action='store_true')
-  parser.add_argument("-filterraid", help="create RAID-0 subtrace", action='store_true')
+  parser.add_argument("-breaktoraid", help="create a RAID-0 subtrace", action='store_true')
   parser.add_argument("-ioimbalance", help="check RAID IO Imbalance", action='store_true')
   parser.add_argument("-combine", help="combine preprocessed traces inside a directory", action='store_true')
   parser.add_argument("-toplargeio", help="get n top large io", action='store_true')
@@ -55,9 +55,8 @@ if __name__ == '__main__':
   parser.add_argument("-resize", help="resize a trace", type=float, default=1.0)
   parser.add_argument("-rerate", help="rerate a trace", type=float, default=1.0)
   parser.add_argument("-ndisk", help="n disk for RAID", type=int, default=2)
-  parser.add_argument("-odisk", help="observed disk for RAID", type=int, default=0)
   parser.add_argument("-stripe", help="RAID stripe unit size in byte", type=int, default=4096)
-  parser.add_argument("-granularity", help="granularity to check RAID IO imbalance in seconds", type=int, default=300)
+  parser.add_argument("-granularity", help="granularity to check RAID IO imbalance in minutes", type=int, default=1)
   parser.add_argument("-timerange", help="time range to cut the trace", type=float, nargs = 2)
   args = parser.parse_args()
 
@@ -80,10 +79,10 @@ if __name__ == '__main__':
         preprocess_trace.preprocessUnixBlkTrace(args.dir + "/" + ftrace, args.filter)
     else:
       preprocess_trace.preprocessUnixBlkTrace(args.file, args.filter)
-  elif (args.filterraid):
-    filter_raid.createRaidSubtrace(args.file, args.ndisk, args.odisk, args.stripe)
+  elif (args.breaktoraid):
+    filter_raid.createAllRaidFiles(args.file, args.ndisk, args.stripe)
   elif (args.ioimbalance):
-    iopsimbalance.checkIOImbalance(args.files, args.granularity)
+    iopsimbalance.checkIOImbalance(filter_raid.createAllRaidList(args.file,args.ndisk,args.stripe), args.granularity)
   elif (args.combine):
     traces_combiner.combine(args.dir)
   elif args.mostLoaded or args.busiest: #need combine

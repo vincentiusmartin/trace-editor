@@ -2,9 +2,8 @@
 
 import math
 
-
 def createRaidSubtrace(infile, ndisk, odisk, stripe):
-  out = open("out/" + infile + "-raiddisk" + str(odisk) + ".trace" , 'w')
+  out = []
 
   blk_size = 512
   scaler = stripe / blk_size # = chunk size
@@ -37,4 +36,35 @@ def createRaidSubtrace(infile, ndisk, odisk, stripe):
 	
       blkno, blkcount = calculate_raid_blk(blkno, blkcount, time=time)
       if blkcount != 0:
-        out.write("{} {} {} {} {}".format(time, devno, blkno, blkcount, flags))
+        out.append("{} {} {} {} {}".format(time, devno, blkno, blkcount, flags))
+        
+  return out
+        
+def createAllRaidFiles(infile, ndisk, stripe):
+
+  for i in range(0,ndisk):
+    out = open("out/"+infile+"-raiddisk" + str(i) + ".trace",'w')
+    
+    raiddisk = createRaidSubtrace(infile,ndisk,i,stripe)
+    
+    for traceelm in raiddisk:
+      out.write(traceelm)
+    
+    out.close()
+    
+def createAllRaidList(infile, ndisk, stripe):
+
+  out = []
+
+  for i in range(0,ndisk):
+    out.append([])
+    
+    raiddisk = createRaidSubtrace(infile,ndisk,i,stripe)
+    
+    for traceelm in raiddisk:
+      out[i].append(traceelm.split(" "))
+    
+  return out
+    
+
+

@@ -33,11 +33,11 @@ Make sure that traces' names are well ordered.
 <pre>python trace-editor.py -dir &lt;dirname&gt; </pre>
 
 <p>
-4. Filter to RAID-0 disk
-In this example get the disk 0 from 4 disks with the stripe unit size 65536 bytes
+4. Break to RAID-0 disks
+In this example get RAID disks from 4 disks with the stripe unit size 65536 bytes
 </p>
 
-<pre>python trace-editor.py -filterraid -file &lt;infile&gt; -ndisk 4 -odisk 0 -stripe 65536</pre>
+<pre>python trace-editor.py -breaktoraid -file &lt;infile&gt; -ndisk 4 -stripe 65536</pre>
 
 <p>
 5. Check IO imbalance in the RAID Disks.

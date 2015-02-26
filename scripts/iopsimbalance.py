@@ -15,38 +15,20 @@ def median(lst):
     return numpy.median(numpy.array(lst))
 
 def checkIOImbalance(inputdisk, granularity):
-  for i in range(len(inputdisk)):
-    tracefile = open("in/" + inputdisk[i])
-    inputdisk[i] = [line.strip().split(" ") for line in tracefile.readlines()]
-
-  # get max time
-  maxtime = 0.0	
-  for disk in inputdisk:
-    for request in disk:
-      if float(request[0]) > maxtime:
-        maxtime = float(request[0])
-
-  # create the bucket
-  delta = granularity * 1000
+  #for i in range(len(inputdisk)):
+  #  tracefile = open("in/" + inputdisk[i])
+  #  inputdisk[i] = [line.strip().split(" ") for line in tracefile.readlines()]
+  
+  delta = granularity * 60000 #minutes to ms
   bucket = {}
-  lowerval = 0.0
-  while 1:
-    bucket[lowerval] = [0] * len(inputdisk)
-    lowerval += delta
-    if(lowerval > maxtime):
-      break
 
   # now fill the bucket
   for i in range(0, len(inputdisk)):
     for request in inputdisk[i]:
-      for key in bucket:
-        if key <= float(request[0]) < key + delta:  
-          bucket[key][i] += 1
-          break
+      if (int(float(request[0]) * 1000) / (delta * 1000)) not in bucket:
+        bucket[int(float(request[0]) * 1000) / (delta * 1000)] = [0] * len(inputdisk)
+      bucket[int(float(request[0]) * 1000) / (delta * 1000)][i] += 1
 
   for key in sorted(bucket):
-    print str(int(key/1000)) + "-" + str(int((key+delta)/1000)) + ": " + str(bucket[key])  + " - imbalance:" + str(float(max(bucket[key]) / median(bucket[key])))
-
-
-
+    print str(int(key * granularity)) + "-" + str(int(key * granularity + granularity)) + ": " + str(bucket[key])  + " - imbalance:" + str(float(max(bucket[key]) / median(bucket[key])))
 
