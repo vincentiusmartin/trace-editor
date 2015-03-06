@@ -99,8 +99,8 @@ if __name__ == '__main__':
   elif (args.toplargeio):
     toplargeio.getTopLargeIO(args.file, args.offset, args.devno, args.duration, args.top)
   elif (args.cuttrace):
-    cuttrace.cut(args.file, args.timerange[0], args.timerange[1])
-  else: #modify a trace
+    cuttrace.cut(args.file, args.timerange[0], args.timerange[1], args.devno)
+  elif (args.resize or args.rerate): #modify a trace
     with open("in/" + args.file) as f:
       for line in f:
         requestlist.append(line.rstrip().split(" "))

@@ -10,7 +10,7 @@
 #precondition    :ordered
 #==============================================================================
 
-def cut(tracefile, lowerb, upperb):
+def cut(tracefile, lowerb, upperb, devno = -1):
   out = open("out/" + tracefile + "-cut.trace", 'w')
   
   lowerb = 60000 * lowerb
@@ -19,6 +19,10 @@ def cut(tracefile, lowerb, upperb):
   with open("in/" + tracefile) as f:
     for line in f:
       tok = map(str.lstrip, line.split(" "))
+      
+      if devno != -1 and int(tok[1]) != devno:
+        continue
+
       if lowerb <= float(tok[0]) < upperb:
         out.write(line)
         
